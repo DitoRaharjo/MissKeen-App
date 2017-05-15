@@ -62,7 +62,7 @@
             android:background="@drawable/mbutton"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:onClick="buttonRegis" />
+            android:onClick="buttonRegister" />
         <Button
             android:layout_marginLeft="10dp"
             android:layout_width="120dp"
