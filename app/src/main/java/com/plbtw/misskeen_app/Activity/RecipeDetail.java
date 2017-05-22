@@ -1,31 +1,23 @@
 package com.plbtw.misskeen_app.Activity;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.plbtw.misskeen_app.AppController;
 import com.plbtw.misskeen_app.R;
-import com.plbtw.misskeen_app.Recipe;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import static java.security.AccessController.getContext;
 
 public class RecipeDetail extends AppCompatActivity {
     private static final String url = "http://ditoraharjo.co/misskeen/api/v1/recipe/".toString().trim();
@@ -60,20 +52,20 @@ public class RecipeDetail extends AppCompatActivity {
                             try {
 
                                 JSONObject obj = response.getJSONObject(0);
-                                Recipe recipe = new Recipe();
-                                recipe.setRecipeid(obj.getString("id"));
-                                recipe.setRecipethumbnail(obj.getString("image"));
-                                recipe.setRecipedescription(obj.getString("description"));
-                                recipe.setRecipename(obj.getString("name"));
-                                recipe.setReciperating(obj.getString("rating"));
+                                com.plbtw.misskeen_app.RecipeDetail recipeDetail = new com.plbtw.misskeen_app.RecipeDetail();
+                                recipeDetail.setRecipeid(obj.getString("id"));
+                                recipeDetail.setRecipethumbnail(obj.getString("image"));
+                                recipeDetail.setRecipedescription(obj.getString("description"));
+                                recipeDetail.setRecipename(obj.getString("name"));
+                                recipeDetail.setReciperating(obj.getString("rating"));
                                 JSONArray ingredients = obj.getJSONArray("ingredients");
 
                                 Picasso
                                         .with(RecipeDetail.this)
-                                        .load(recipe.getRecipethumbnail()).memoryPolicy(MemoryPolicy.NO_CACHE) .networkPolicy(NetworkPolicy.NO_CACHE)
+                                        .load(recipeDetail.getRecipethumbnail()).memoryPolicy(MemoryPolicy.NO_CACHE) .networkPolicy(NetworkPolicy.NO_CACHE)
                                         .into(imageView);
-                                txtrecipename.setText(recipe.getRecipename());
-                                txtrecipedescription.setText(recipe.getRecipedescription());
+                                txtrecipename.setText(recipeDetail.getRecipename());
+                                txtrecipedescription.setText(recipeDetail.getRecipedescription());
                                 txtrecipesteps.setText(obj.getString("procedure"));
                                 for (int i=0;i<ingredients.length();i++)
                                 {

@@ -19,22 +19,22 @@ import java.util.List;
 public class RecipeListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
-    private List<Recipe> recipeItems;
+    private List<RecipeDetail> recipeDetailItems;
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
-    public RecipeListAdapter(Activity activity, List<Recipe> recipeItems) {
+    public RecipeListAdapter(Activity activity, List<RecipeDetail> recipeDetailItems) {
         this.activity = activity;
-        this.recipeItems = recipeItems;
+        this.recipeDetailItems = recipeDetailItems;
     }
 
     @Override
     public int getCount() {
-        return recipeItems.size();
+        return recipeDetailItems.size();
     }
 
     @Override
     public Object getItem(int location) {
-        return recipeItems.get(location);
+        return recipeDetailItems.get(location);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class RecipeListAdapter extends BaseAdapter {
         TextView recipedescription = (TextView) convertView.findViewById(R.id.recipedescription);
         TextView reciperating = (TextView) convertView.findViewById(R.id.reciperating);
 
-        Recipe m = recipeItems.get(position);
+        RecipeDetail m = recipeDetailItems.get(position);
 
         thumbNail.setImageUrl(m.getRecipethumbnail(), imageLoader);
         recipeid.setText(m.getRecipeid());

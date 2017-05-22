@@ -3,14 +3,14 @@ package com.plbtw.misskeen_app;
 /**
  * Created by Paulina on 5/22/2017.
  */
-public class Recipe {
+public class RecipeDetail {
     private String recipeid;
     private String recipename;
     private String recipedescription;
     private String reciperating;
     private String recipethumbnail;
 
-    public Recipe() {
+    public RecipeDetail() {
     }
 
     public String getRecipeid() {
