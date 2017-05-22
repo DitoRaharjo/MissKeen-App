@@ -3,8 +3,7 @@ package com.plbtw.misskeen_app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-
-package com.plbtw.misskeen_app.R;
+import com.plbtw.misskeen_app.R;
 
 public class AboutUsActivity extends AppCompatActivity {
 

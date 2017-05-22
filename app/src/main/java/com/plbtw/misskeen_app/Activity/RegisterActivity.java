@@ -17,11 +17,12 @@ import com.plbtw.misskeen_app.Client;
 import com.plbtw.misskeen_app.Helper.PrefHelper;
 import com.plbtw.misskeen_app.Model.User;
 import com.plbtw.misskeen_app.Model.UserObject;
-import com.plbtw.misskeen_app.R;
 import com.plbtw.misskeen_app.Rest;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+
+import com.plbtw.misskeen_app.R;
 
 /**
  * Created by Paulina on 5/15/2017.

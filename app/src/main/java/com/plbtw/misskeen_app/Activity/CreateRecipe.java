@@ -3,7 +3,7 @@ package com.plbtw.misskeen_app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-package com.plbtw.misskeen_app.R;
+import com.plbtw.misskeen_app.R;
 
 public class CreateRecipe extends AppCompatActivity {
 
