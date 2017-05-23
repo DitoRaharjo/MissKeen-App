@@ -40,6 +40,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnRegis = (Button)findViewById(R.id.btnRegis);
+
+        editUsername = (EditText) findViewById(R.id.editUsername);
+        editPassword = (EditText) findViewById(R.id.editPassword);
     }
 
     public void buttonRegister(View v)
@@ -50,54 +53,68 @@ public class LoginActivity extends AppCompatActivity {
 
     public void buttonLogin(View v)
     {
-        editUsername = (EditText) findViewById(R.id.editUsername);
-        editPassword = (EditText) findViewById(R.id.editPassword);
-        UserObject user = new UserObject(editUsername.getText().toString(), editPassword.getText().toString());
-        Rest rest = Client.getClient().create(Rest.class);
-        Call<User> call = rest.getLogin(user);
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, retrofit2.Response<User> response) {
-                if(response.body().getStatus().equals("true"))
-                {
-                    PrefHelper.saveToPref(getApplicationContext(), "email", "password");
-                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(i);
+        if(editUsername.getText().toString().trim().length() == 0 || editPassword.getText().toString().trim().length() == 0)
+        {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
+            alertDialogBuilder.setTitle("Gagal Login!");
+            alertDialogBuilder.setMessage("Harap username dan password diisi");
+            alertDialogBuilder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
                 }
-                else
-                if(response.body().getStatus().equals("false"))
-                {
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
-                    alertDialogBuilder.setMessage(response.body().getInfo());
-                    alertDialogBuilder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
+            });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
+        else
+        {
+            UserObject user = new UserObject(editUsername.getText().toString(), editPassword.getText().toString());
+            Rest rest = Client.getClient().create(Rest.class);
+            Call<User> call = rest.getLogin(user);
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, retrofit2.Response<User> response) {
+                    if(response.body().getStatus().equals("true"))
+                    {
+                        PrefHelper.saveToPref(getApplicationContext(), "email", "password");
+                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(i);
+                    }
+                    else
+                    if(response.body().getStatus().equals("false"))
+                    {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
+                        alertDialogBuilder.setMessage(response.body().getInfo());
+                        alertDialogBuilder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+                    }
                 }
-            }
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                if(isOnline()) {
-                    Log.d("Error Login : ", t.toString());
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    if(isOnline()) {
+                        Log.d("Error Login : ", t.toString());
+                    }
+                    else
+                    {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
+                        alertDialogBuilder.setMessage("Koneksi internet tidak tersedia");
+                        alertDialogBuilder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+                    }
                 }
-                else
-                {
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
-                    alertDialogBuilder.setMessage("Koneksi internet tidak tersedia");
-                    alertDialogBuilder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
-                }
-            }
-        });
+            });
 
+        }
     }
     public boolean isOnline()
     {

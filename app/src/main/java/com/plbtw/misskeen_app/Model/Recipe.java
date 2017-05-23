@@ -30,6 +30,11 @@ public class Recipe {
         this.ingredients = ingredients;
         this.image = image;
     }
+    public Recipe(String name, String description)
+    {
+        this.name = name;
+        this.description = description;
+    }
     public String getDescription() {
         return description;
     }

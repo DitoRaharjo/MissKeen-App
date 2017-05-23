@@ -66,6 +66,12 @@ public class CreateRecipe extends AppCompatActivity {
         btnSimpan = (Button) findViewById(R.id.btnSubmit);
         btnTambahGambar = (ImageView) findViewById(R.id.ivAdd);
 
+        btnSimpan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonSimpan(v);
+            }
+        });
         getBahan();
     }
 
@@ -130,32 +136,49 @@ public class CreateRecipe extends AppCompatActivity {
 
     public void buttonSimpan(View v)
     {
-        IngredientObject ingredientObject = new IngredientObject("Daging Ayam", "200", "gram", "dicincang kasar");
-//        Ingredients ingredients = new Ingredients(ingredientObject);
-        Recipe recipe = new Recipe("Nasi Goreng", "Nasi goreng kecap, mudah, cepat, enak", "1. Panaskan minyak 2. Masukkan nasi putih 3. Tambahkan kecap dan daging ayam", "1", ingredientObject , null);
-//        Recipe recipe = new Recipe(namaR.getText().toString(), deskripsiR.getText().toString(), caraR.getText().toString(), porsiR.getText().toString(), bahanR.getSelectedItem().toString(), "");
-        Rest rest = Client.getClient().create(Rest.class);
-        Call<Recipe> call = rest.createRecipe(recipe);
-        call.enqueue(new Callback<Recipe>() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateRecipe.this);
+        alertDialogBuilder.setTitle("Konfirmasi");
+        alertDialogBuilder.setMessage("Yakin akan menyimpan resep ini?");
+        alertDialogBuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
-            public void onResponse(Call<Recipe> call, Response<Recipe> response) {
-                //tersimpan
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateRecipe.this);
-                alertDialogBuilder.setTitle("Berhasil!");
-                alertDialogBuilder.setMessage("Resep berhasil disimpan");
-                alertDialogBuilder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Rest rest = Client.getClient().create(Rest.class);
+                IngredientObject ingredientObject = new IngredientObject("Daging Ayam", "200", "gram", "dicincang kasar");
+//        Ingredients ingredients = new Ingredients(ingredientObject);
+                Recipe recipe = new Recipe("Nasi Goreng", "Nasi goreng kecap, mudah, cepat, enak", "1. Panaskan minyak 2. Masukkan nasi putih 3. Tambahkan kecap dan daging ayam", "1", ingredientObject , null);
+//        Recipe recipe = new Recipe(namaR.getText().toString(), deskripsiR.getText().toString(), caraR.getText().toString(), porsiR.getText().toString(), bahanR.getSelectedItem().toString(), "");
+                Call<Recipe> call = rest.createRecipe(recipe);
+                call.enqueue(new Callback<Recipe>() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onResponse(Call<Recipe> call, Response<Recipe> response) {
+                        //tersimpan
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateRecipe.this);
+                        alertDialogBuilder.setTitle("Berhasil!");
+                        alertDialogBuilder.setMessage("Resep berhasil disimpan");
+                        alertDialogBuilder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Recipe> call, Throwable t) {
+                        Log.d("Error Create Resep : ", t.toString());
                     }
                 });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-            }
-
-            @Override
-            public void onFailure(Call<Recipe> call, Throwable t) {
-                Log.d("Error Create Resep : ", t.toString());
             }
         });
+        alertDialogBuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
     }
 }

@@ -77,8 +77,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="57dp"
                 android:layout_toEndOf="@+id/etCooking"
-                android:text="Simpan"
-                android:onClick="buttonSimpan" />
+                android:text="Simpan" />
 
             <EditText
                 android:id="@+id/etPortion"
